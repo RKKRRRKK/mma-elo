@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import TheLadder from '../components/TheLadder.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <TheLadder />
   </main>
 </template>
