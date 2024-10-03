@@ -13,17 +13,15 @@
       :sortField="'peak_elo'"
       :sortOrder="-1"
       :filters="filters"
-      :globalFilterFields="['name', 'best_win', 'worst_loss']"
       paginator
       :rows="10"
       responsiveLayout="scroll"
     >
       <Column field="name" header="Name" sortable></Column>
-      <Column field="elo" header="Current ELO" sortable></Column>
-      <Column field="peak_elo" header="Peak ELO" sortable></Column>
+      <Column field="peak_elo" header="Peak Elo" sortable></Column>
       <Column field="best_win" header="Best Win" sortable></Column>
-      <Column field="worst_loss" header="Worst Loss" sortable></Column>
-      <Column field="days_peak" header="Days at Peak" sortable></Column>
+      <Column field="days_peak" header="Days at peak" sortable></Column>
+      <Column field="weight_class" header="Weight Class" sortable></Column>
     </DataTable>
   </div>
 </template>
@@ -46,7 +44,7 @@ const filters = ref({
 
 <style scoped>
 .ladder-container {
-  max-width: 800px;
+  max-width: 80rem;
   margin: 0 auto;
   padding: 1rem;
 }
