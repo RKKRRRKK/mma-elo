@@ -1,6 +1,9 @@
 <template>
   <div class="ladder-container">
-    <h2>Fighters List</h2>
+    <div class="title_wrap">
+      <h2>G.O.A.T List</h2>
+      <h3>(TOP 1000)</h3>
+    </div>
     <div class="p-inputgroup search-bar">
       <span class="p-inputgroup-addon">
         <i class="pi pi-search"></i>
@@ -19,7 +22,6 @@
       :rows="10"
       responsiveLayout="scroll"
     >
-      <!-- Dynamic Columns based on CalcType -->
       <Column
         v-for="col in columnsToShow"
         :key="col.field"
@@ -40,17 +42,14 @@ import InputText from 'primevue/inputtext'
 import Dropdown from 'primevue/dropdown'
 import { FilterMatchMode } from '@primevue/core/api'
 
-// Ensure the store is available and fighters are accessible
 const fightersStore = useFightersStore()
-const fighters = computed(() => fightersStore.fighters || []) // Adding a fallback in case fighters is undefined
+const fighters = computed(() => fightersStore.fighters || [])
 
-const CalcType = ref('normal calculation') // Default calc type
-const sortField = ref('peak_elo') // Default sortField
+const CalcType = ref('normal calculation')
+const sortField = ref('peak_elo')
 
-// Dropdown options
 const calcTypes = ['normal calculation', 'domination calculation', 'pico_elbows calculation']
 
-// Watch CalcType and update sortField dynamically when CalcType changes
 watch(CalcType, (newVal) => {
   if (newVal === 'domination calculation') {
     sortField.value = 'peak_elo_dom'
@@ -61,9 +60,8 @@ watch(CalcType, (newVal) => {
   }
 })
 
-// Dynamically select columns based on CalcType
 const columnsToShow = computed(() => {
-  if (CalcType.value === 'domination') {
+  if (CalcType.value === 'domination calculation') {
     return [
       { field: 'name', header: 'Name', sortable: false },
       { field: 'peak_elo_dom', header: 'Peak Elo', sortable: true },
@@ -73,7 +71,7 @@ const columnsToShow = computed(() => {
       { field: 'weight_class', header: 'Weight Class', sortable: false },
       { field: 'nationality', header: 'Country/Region', sortable: false }
     ]
-  } else if (CalcType.value === 'pico_elbows') {
+  } else if (CalcType.value === 'pico_elbows calculation') {
     return [
       { field: 'name', header: 'Name', sortable: false },
       { field: 'peak_elo_dom_pico_elbows', header: 'Peak Elo', sortable: true },
@@ -96,7 +94,6 @@ const columnsToShow = computed(() => {
   }
 })
 
-// Filters for search functionality
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 })
@@ -111,6 +108,7 @@ const filters = ref({
 
 h2 {
   text-align: center;
+  font-size: 2.5rem;
   margin-bottom: 1.5rem;
 }
 
@@ -121,5 +119,10 @@ h2 {
 .wrapper_options {
   display: flex;
   align-content: space-between;
+}
+
+.title_wrap {
+  display: flex;
+  justify-content: center;
 }
 </style>

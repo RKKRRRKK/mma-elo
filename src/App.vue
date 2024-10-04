@@ -13,6 +13,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <main class="main-content">
     <RouterView />
   </main>
+  <footer class="footer"></footer>
 </template>
 
 <style scoped>
@@ -46,11 +47,6 @@ import { RouterLink, RouterView } from 'vue-router'
 .nav-link:hover {
   color: #bb86fc;
 }
-
-.main-content {
-  padding: 2rem;
-  min-height: calc(100vh - 80px); /* Adjust based on header height */
-}
 </style>
 
 <style>
@@ -60,5 +56,8 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: #121212;
   color: #e0e0e0;
+}
+.footer {
+  height: 10rem;
 }
 </style>
