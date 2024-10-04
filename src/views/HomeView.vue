@@ -23,11 +23,12 @@ import ThePlacesLadder from '../components/ThePlacesLadder.vue'
 
 .lower-tables {
   margin-top: 10rem;
-  gap: 0rem;
+  gap: 2rem;
   display: flex;
   flex-direction: row;
-  flex-flow: nowrap;
+  flex-flow: wrap;
   height: 50rem;
+  width: 100vw;
   margin-bottom: 15rem;
   transform: scale(0.9);
 }

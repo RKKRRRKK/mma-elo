@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Top 10 Birthplaces</h2>
-    <DataTable :value="birthplaces" tableStyle="min-width: 50rem">
+    <DataTable class="table" :value="birthplaces" tableStyle="min-width: 50rem">
       <Column field="birthplace" header="Birthplace"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
       <Column field="avg_elo" header="Average Elo"></Column>
@@ -90,5 +90,8 @@ const birthplaces = ref([
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.table {
+  border: solid RGBA(255, 255, 255, 0.15) 0.2rem;
 }
 </style>

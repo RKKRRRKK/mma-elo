@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Top 10 Nationalities</h2>
-    <DataTable :value="nationalities" tableStyle="min-width: 50rem">
+    <DataTable class="table" :value="nationalities" tableStyle="min-width: 50rem">
       <Column field="nationality" header="Nationality"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
       <Column field="avg_elo" header="Average Elo"></Column>
@@ -89,5 +89,9 @@ const nationalities = ref([
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.table {
+  border: solid RGBA(255, 255, 255, 0.15) 0.2rem;
 }
 </style>

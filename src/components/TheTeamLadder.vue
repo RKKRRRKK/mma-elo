@@ -2,7 +2,7 @@
   <div>
     <h2 class="title">Top 10 Teams</h2>
 
-    <DataTable :value="associations" tableStyle="min-width: 50rem">
+    <DataTable class="table" :value="associations" tableStyle="min-width: 50rem">
       <Column field="association" header="Association"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
       <Column field="avg_elo" header="Average Elo"></Column>
@@ -91,5 +91,9 @@ const associations = ref([
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.table {
+  border: solid RGBA(255, 255, 255, 0.15) 0.2rem;
 }
 </style>

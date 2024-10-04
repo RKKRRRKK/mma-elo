@@ -9,16 +9,21 @@
         <i class="pi pi-search"></i>
       </span>
       <InputText v-model="filters['global'].value" placeholder="Search" />
-      <Dropdown v-model="CalcType" :options="calcTypes" placeholder="Select Calculation"></Dropdown>
+      <Dropdown
+        class="dropdown"
+        v-model="CalcType"
+        :options="calcTypes"
+        placeholder="Select Calculation"
+      ></Dropdown>
     </div>
 
     <DataTable
+      class="table"
       :value="fighters"
       :sortField="sortField"
       :sortOrder="-1"
       :filters="filters"
       paginator
-      filterDisplay="row"
       :rows="10"
       responsiveLayout="scroll"
     >
@@ -124,5 +129,11 @@ h2 {
 .title_wrap {
   display: flex;
   justify-content: center;
+}
+.table {
+  border: solid RGBA(255, 255, 255, 0.15) 0.2rem;
+}
+.dropdown {
+  margin-left: 2rem;
 }
 </style>

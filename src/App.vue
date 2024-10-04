@@ -17,7 +17,6 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style scoped>
-/* Header and other component styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -28,7 +27,7 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   font-weight: bold;
   color: #ffffff;
 }
@@ -50,12 +49,9 @@ import { RouterLink, RouterView } from 'vue-router'
 </style>
 
 <style>
-/* Global styles to ensure dark mode */
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  background-color: #121212;
-  color: #e0e0e0;
 }
 .footer {
   height: 10rem;
