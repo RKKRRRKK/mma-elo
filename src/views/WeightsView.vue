@@ -1,9 +1,9 @@
 <script setup>
-import TheLadder from '../components/TheLadder.vue'
+import TheUFCRankings from '../components/TheUFCRankings.vue'
 </script>
 
 <template>
   <main>
-    <TheLadder />
+    <TheUFCRankings></TheUFCRankings>
   </main>
 </template>

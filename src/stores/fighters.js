@@ -352,7 +352,7 @@ export const useFightersStore = defineStore('fighters', {
         birth_date: 'Dec 4, 1991',
         association: 'Gracie Technics',
         weight_class: 'Lightweight',
-        ufc_position: 10,
+        ufc_position: 2,
         ufc_class: 'featherweight'
       },
       {

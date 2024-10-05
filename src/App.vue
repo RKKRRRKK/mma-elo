@@ -7,6 +7,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="title">MMA ELO</div>
     <nav class="nav-links">
       <RouterLink to="/" class="nav-link">Home</RouterLink>
+      <RouterLink to="/ufc-rankings" class="nav-link">UFC Rankings</RouterLink>
       <RouterLink to="/about" class="nav-link">About</RouterLink>
     </nav>
   </header>
