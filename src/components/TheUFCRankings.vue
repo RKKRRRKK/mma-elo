@@ -8,14 +8,14 @@
     >
       <h3 class="subtitle">{{ weightClass }}</h3>
       <DataTable :value="fighters" tableStyle="min-width: 50rem">
-        <Column field="rank" header="Rank" sortable>
+        <Column field="rank" header="Elo Rank (difference)" sortable>
           <template #body="slotProps">
             {{ slotProps.data.rank }}
             <span v-if="slotProps.data.rankDifference !== null">
-              <span v-if="slotProps.data.rankDifference > 0">
+              <span v-if="slotProps.data.rankDifference > 0" class="rank-up">
                 (▲ {{ slotProps.data.rankDifference }})
               </span>
-              <span v-else-if="slotProps.data.rankDifference < 0">
+              <span v-else-if="slotProps.data.rankDifference < 0" class="rank-down">
                 (▼ {{ Math.abs(slotProps.data.rankDifference) }})
               </span>
             </span>
@@ -23,7 +23,7 @@
         </Column>
         <Column field="ufc_position" header="UFC Rank" sortable></Column>
         <Column field="name" header="Name"></Column>
-        <Column field="current_elo" header="Current ELO"></Column>
+        <Column field="current_elo" header="Current Elo"></Column>
       </DataTable>
     </div>
   </div>
@@ -89,17 +89,29 @@ const filteredFighters = computed(() => {
 }
 
 .subtitle {
+  margin: 0;
   text-align: center;
   font-size: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: solid rgba(255, 255, 255, 0.15) 0.2rem;
+  padding: 1.5rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
+  border-top-left-radius: 1.2rem;
+  border-top-right-radius: 1.2rem;
+  border-bottom: solid rgba(255, 255, 255, 0.15) 0.2rem;
+  background-color: rgba(185, 28, 28, 0.25);
 }
 
 .title {
   padding-top: 2rem;
   text-align: center;
+}
+
+.rank-up {
+  color: green;
+}
+
+.rank-down {
+  color: red;
 }
 </style>

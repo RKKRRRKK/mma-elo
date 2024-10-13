@@ -90,6 +90,13 @@ const birthplaces = ref([
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-top-left-radius: 1.2rem;
+  border-top-right-radius: 1.2rem;
+  border: solid rgba(255, 255, 255, 0.15) 0.2rem;
+  border-bottom: none;
+  background-color: rgba(185, 28, 28, 0.25);
+  margin-bottom: 0;
+  padding: 1rem;
 }
 .table {
   border: solid RGBA(255, 255, 255, 0.15) 0.2rem;

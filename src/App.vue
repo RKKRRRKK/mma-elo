@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <header class="header">
     <div class="title">MMA ELO</div>
     <nav class="nav-links">
-      <RouterLink to="/" class="nav-link">Home</RouterLink>
+      <RouterLink to="/" class="nav-link">Main List</RouterLink>
       <RouterLink to="/ufc-rankings" class="nav-link">UFC Rankings</RouterLink>
       <RouterLink to="/about" class="nav-link">About</RouterLink>
     </nav>
@@ -30,7 +30,7 @@ import { RouterLink, RouterView } from 'vue-router'
 .title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #ffffff;
+  color: RGB(185, 28, 28);
 }
 
 .nav-links {
@@ -45,7 +45,7 @@ import { RouterLink, RouterView } from 'vue-router'
 }
 
 .nav-link:hover {
-  color: #bb86fc;
+  color: RGB(239, 68, 68);
 }
 </style>
 
