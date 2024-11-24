@@ -1,14 +1,12 @@
-name: Deploy to Firebase Hosting
+name: Scheduled Deployment to Firebase Hosting
 
 on:
-  pull_request:
   schedule:
-   - cron: '0 14 * * 1'
-  workflow_dispatch:     # Allows manual triggering of the workflow
+    - cron: '0 14 * * 1'  # monday 2 pm
+  workflow_dispatch:      # Allows manual triggering of the workflow
 
 jobs:
   build_and_deploy:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,7 +14,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
 
       - name: Cache node modules
         uses: actions/cache@v3
@@ -38,8 +36,9 @@ jobs:
       - name: Build the app
         run: npm run build
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Deploy to Firebase Hosting
+        uses: w9jds/firebase-action@v2.2.1
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIGHTERS_ELO }}'
-          projectId: fighters-elo
+          args: deploy --only hosting --project fighters-elo
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIGHTERS_ELO }}
