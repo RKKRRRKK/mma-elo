@@ -8,10 +8,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "fetch-data": "node fetchFighters.js"
   },
   "dependencies": {
     "@primevue/themes": "^4.0.7",
+    "@supabase/supabase-js": "^2.46.1",
     "pinia": "^2.1.7",
     "primevue": "^4.0.7",
     "vue": "^3.4.29",
