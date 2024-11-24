@@ -7,7 +7,11 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 async function fetchFighters() {
-  const { data, error } = await supabase.from('fighters_enriched').select('*').limit(1000)
+  const { data, error } = await supabase
+    .from('fighters_enriched')
+    .select('*')
+    .order('peak_elo', { ascending: false })
+    .limit(1000)
 
   if (error) {
     console.error('Error fetching data:', error)
