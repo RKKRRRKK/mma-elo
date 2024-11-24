@@ -41,4 +41,4 @@ jobs:
         with:
           args: deploy --only hosting --project fighters-elo
         env:
-          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIGHTERS_ELO }}
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FIGHTERS_ELO }}
