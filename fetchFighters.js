@@ -1,8 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
 import fs from 'fs'
-import os
-import sys
-from supabase import create_client, Client
 
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
