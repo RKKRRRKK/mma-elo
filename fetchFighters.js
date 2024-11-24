@@ -1,9 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 import fs from 'fs'
 
-SUPABASE_URL = os.environ.get('SUPABASE_URL')
-SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+const SUPABASE_URL = process.env.SUPABASE_URL
+const SUPABASE_KEY = process.env.SUPABASE_KEY
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 async function fetchFighters() {
   const { data, error } = await supabase.from('fighters_enriched').select('*').limit(1000)
