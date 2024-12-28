@@ -8,7 +8,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 async function fetchFighters() {
   const { data, error } = await supabase
-    .from('fighters_enriched')
+    .from('fighters_enriched_new')
     .select('*')
     .order('peak_elo', { ascending: false })
     .limit(1000)
