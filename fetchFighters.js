@@ -6,7 +6,6 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
-// 1. Fetch your main fighters data
 async function fetchFighters() {
   const { data, error } = await supabase
     .from('fighters_enriched_new')
@@ -19,7 +18,6 @@ async function fetchFighters() {
     process.exit(1)
   }
 
-  // Write these fighters into a Pinia store file
   const storeCode = `import { defineStore } from 'pinia';
 
 export const useFightersStore = defineStore('fighters', {
@@ -33,7 +31,6 @@ export const useFightersStore = defineStore('fighters', {
   console.log('Fighters store updated successfully.')
 }
 
-// 2. Fetch countries ladder data from your Postgres function
 async function fetchCountriesLadder() {
   const { data, error } = await supabase.rpc('fetch_countries_ladder')
   if (error) {
@@ -43,7 +40,6 @@ async function fetchCountriesLadder() {
   return data
 }
 
-// 3. Fetch places ladder data from your Postgres function
 async function fetchPlacesLadder() {
   const { data, error } = await supabase.rpc('fetch_places_ladder')
   if (error) {
@@ -53,10 +49,8 @@ async function fetchPlacesLadder() {
   return data
 }
 
-// 4. Fetch teams ladder data from your Postgres function
 async function fetchTeamsLadder() {
   const { data, error } = await supabase.rpc('fetch_team_ladder')
-  // Note: Make sure this matches the *exact* function name in your DB
   if (error) {
     console.error('Error fetching team ladder:', error)
     process.exit(1)
@@ -64,7 +58,6 @@ async function fetchTeamsLadder() {
   return data
 }
 
-// 5. Orchestrate fetching all ladders + writing components
 async function fetchAndUpdateLadders() {
   const countriesLadder = await fetchCountriesLadder()
   const placesLadder = await fetchPlacesLadder()
@@ -74,21 +67,33 @@ async function fetchAndUpdateLadders() {
     'src/components/TheCountriesLadder.vue',
     'nationalities',
     countriesLadder,
-    'Nationality'
+    'Nationality',
+    'Nationalities'
   )
-  writeComponent('src/components/ThePlacesLadder.vue', 'birthplaces', placesLadder, 'Birthplace')
-  writeComponent('src/components/TheTeamLadder.vue', 'associations', teamsLadder, 'Association')
+  writeComponent(
+    'src/components/ThePlacesLadder.vue',
+    'birthplaces',
+    placesLadder,
+    'Birthplace',
+    'Birthplaces'
+  )
+  writeComponent(
+    'src/components/TheTeamLadder.vue',
+    'associations',
+    teamsLadder,
+    'Association',
+    'Associations'
+  )
 
   console.log('Ladder components updated successfully.')
 }
 
-// 6. Generic function to write your ladder data into components
-function writeComponent(filePath, variableName, data, primaryField) {
+function writeComponent(filePath, variableName, data, primaryField, secondaryField) {
   const formattedData = JSON.stringify(data, null, 2)
   const componentCode = `
 <template>
   <div>
-    <h2 class="title">Top 10 ${primaryField}s</h2>
+    <h2 class="title">Top 10 ${secondaryField}</h2>
     <DataTable class="table" :value="${variableName}" tableStyle="min-width: 50rem">
       <Column field="${primaryField.toLowerCase()}" header="${primaryField}"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
