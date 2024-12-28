@@ -56,13 +56,11 @@ const fighters = computed(() => fightersStore.fighters || [])
 const CalcType = ref('normal calculation')
 const sortField = ref('peak_elo')
 
-const calcTypes = ['normal calculation', 'domination calculation', 'justice for JJ calculation']
+const calcTypes = ['normal calculation', 'domination calculation']
 
 watch(CalcType, (newVal) => {
   if (newVal === 'domination calculation') {
     sortField.value = 'peak_elo_dom'
-  } else if (newVal === 'justice for JJ calculation') {
-    sortField.value = 'peak_elo_dom_untested'
   } else {
     sortField.value = 'peak_elo'
   }
@@ -77,17 +75,6 @@ const columnsToShow = computed(() => {
       { field: 'current_elo_dom', header: 'Current Elo', sortable: true },
       { field: 'best_win_dom', header: 'Best Win', sortable: false },
       { field: 'days_peak_dom', header: 'Days at Peak', sortable: true },
-      { field: 'weight_class', header: 'Weight Class', sortable: false },
-      { field: 'nationality', header: 'Country/Region', sortable: false }
-    ]
-  } else if (CalcType.value === 'justice for JJ calculation') {
-    return [
-      { field: 'rank_elo_dom_untested', header: 'Rank', sortable: false },
-      { field: 'name', header: 'Name', sortable: false },
-      { field: 'peak_elo_dom_untested', header: 'Peak Elo', sortable: true },
-      { field: 'current_elo_pico_elbows', header: 'Current Elo', sortable: true },
-      { field: 'best_win_dom_untested', header: 'Best Win', sortable: false },
-      { field: 'days_peak_dom_untested', header: 'Days at Peak', sortable: true },
       { field: 'weight_class', header: 'Weight Class', sortable: false },
       { field: 'nationality', header: 'Country/Region', sortable: false }
     ]
