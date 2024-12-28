@@ -35,17 +35,29 @@ import { RouterLink, RouterView } from 'vue-router'
 
 .nav-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .nav-link {
   color: #e0e0e0;
   text-decoration: none;
-  font-size: 1rem;
+  gap: 1rem;
 }
 
 .nav-link:hover {
   color: RGB(239, 68, 68);
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1rem;
+  }
+
+  .nav_link,
+  .nav-links {
+    font-size: 0.7rem;
+    gap: 0.5rem;
+  }
 }
 </style>
 

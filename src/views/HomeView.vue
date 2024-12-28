@@ -19,6 +19,7 @@ import ThePlacesLadder from '../components/ThePlacesLadder.vue'
 <style scoped>
 .wrapper-main {
   height: 100vh;
+  width: 100vw;
 }
 
 .lower-tables {
@@ -31,5 +32,13 @@ import ThePlacesLadder from '../components/ThePlacesLadder.vue'
   width: 100vw;
   margin-bottom: 15rem;
   transform: scale(0.9);
+}
+
+@media (max-width: 768px) {
+  .lower-tables {
+    transform: scale(0.5);
+    margin-top: -10rem;
+    margin-left: -5rem;
+  }
 }
 </style>

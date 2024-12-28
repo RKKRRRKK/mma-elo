@@ -142,6 +142,7 @@ h3 {
 .search-bar {
   padding-bottom: 0.5rem;
   padding-left: 1rem;
+  flex-wrap: wrap;
 }
 
 .wrapper_options {
@@ -153,18 +154,38 @@ h3 {
   display: flex;
   justify-content: center;
 }
+
 .table {
   border: solid RGBA(255, 255, 255, 0.15) 0.2rem;
   border-bottom: none;
   border-top: none;
 }
+
 .dropdown {
-  margin-left: 2rem;
+  margin-left: 1.25rem;
 }
 
 .search-bar {
   display: flex;
   align-items: center;
   gap: 0.33rem;
+}
+
+@media (max-width: 768px) {
+  .ladder-container {
+    max-width: 100%;
+    padding: 1rem;
+    margin: 1rem auto;
+    font-size: 0.6rem;
+    transform: scale(0.9);
+  }
+
+  .p-inputtext {
+    font-size: inherit;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
 }
 </style>
