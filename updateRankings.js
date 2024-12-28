@@ -6,10 +6,12 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 async function updateRanks() {
-  // Fetch all fighters
+  // Fetch 5000 ordered by current_elo desc
   const { data: fighters, error: fetchError } = await supabase
     .from('fighters_enriched_new')
     .select('*')
+    .order('current_elo', { ascending: false })
+    .limit(5000)
 
   if (fetchError) {
     console.error('Error fetching fighters:', fetchError)
@@ -18,79 +20,34 @@ async function updateRanks() {
 
   console.log(`Fetched ${fighters.length} fighters from the database.`)
 
-  // Update peak values if current values are higher
-  for (const fighter of fighters) {
-    const updates = {}
+  // Process updates locally for peak and rank
+  const fightersByPeakElo = [...fighters].sort((a, b) => b.peak_elo - a.peak_elo)
+  const fightersByPeakEloDom = [...fighters].sort((a, b) => b.peak_elo_dom - a.peak_elo_dom)
 
-    if (fighter.current_elo > fighter.peak_elo) {
-      updates.peak_elo = fighter.current_elo
+  const updatedFighters = fighters.map((fighter) => {
+    const peak_elo = fighter.current_elo > fighter.peak_elo ? fighter.current_elo : fighter.peak_elo
+    const peak_elo_dom =
+      fighter.current_elo_dom > fighter.peak_elo_dom
+        ? fighter.current_elo_dom
+        : fighter.peak_elo_dom
+
+    return {
+      fighter_id: fighter.fighter_id,
+      peak_elo,
+      peak_elo_dom,
+      rank_elo: fightersByPeakElo.findIndex((f) => f.fighter_id === fighter.fighter_id) + 1,
+      rank_elo_dom: fightersByPeakEloDom.findIndex((f) => f.fighter_id === fighter.fighter_id) + 1
     }
-    if (fighter.current_elo_dom > fighter.peak_elo_dom) {
-      updates.peak_elo_dom = fighter.current_elo_dom
-    }
+  })
 
-    if (Object.keys(updates).length > 0) {
-      const { error: updateError } = await supabase
-        .from('fighters_enriched_new')
-        .update(updates)
-        .eq('fighter_id', fighter.fighter_id)
-
-      if (updateError) {
-        console.error(`Error updating fighter_id ${fighter.fighter_id}:`, updateError)
-      }
-    }
-  }
-
-  // Calculate ranks based on peak_elo
-  const { data: fightersByPeakElo, error: rankError1 } = await supabase
+  // Batch update all
+  const { error: updateError } = await supabase
     .from('fighters_enriched_new')
-    .select('*')
-    .order('peak_elo', { ascending: false })
+    .upsert(updatedFighters, { onConflict: 'fighter_id' })
 
-  if (rankError1) {
-    console.error('Error ranking by peak_elo:', rankError1)
+  if (updateError) {
+    console.error('Error updating fighters:', updateError)
     process.exit(1)
-  }
-
-  for (let i = 0; i < fightersByPeakElo.length; i++) {
-    const fighter = fightersByPeakElo[i]
-    const { error: rankUpdateError1 } = await supabase
-      .from('fighters_enriched_new')
-      .update({ rank_elo: i + 1 })
-      .eq('fighter_id', fighter.fighter_id)
-
-    if (rankUpdateError1) {
-      console.error(
-        `Error updating rank_elo for fighter_id ${fighter.fighter_id}:`,
-        rankUpdateError1
-      )
-    }
-  }
-
-  // Calculate ranks based on peak_elo_dom
-  const { data: fightersByPeakEloDom, error: rankError2 } = await supabase
-    .from('fighters_enriched_new')
-    .select('*')
-    .order('peak_elo_dom', { ascending: false })
-
-  if (rankError2) {
-    console.error('Error ranking by peak_elo_dom:', rankError2)
-    process.exit(1)
-  }
-
-  for (let i = 0; i < fightersByPeakEloDom.length; i++) {
-    const fighter = fightersByPeakEloDom[i]
-    const { error: rankUpdateError2 } = await supabase
-      .from('fighters_enriched_new')
-      .update({ rank_elo_dom: i + 1 })
-      .eq('fighter_id', fighter.fighter_id)
-
-    if (rankUpdateError2) {
-      console.error(
-        `Error updating rank_elo_dom for fighter_id ${fighter.fighter_id}:`,
-        rankUpdateError2
-      )
-    }
   }
 
   console.log('Ranks and peak values updated successfully.')
