@@ -116,7 +116,7 @@ updateSortIcon()
 
 <style scoped>
 .ladder-container {
-  max-width: 80rem;
+  max-width: 95rem;
   margin: 3rem auto 1rem;
   padding: 2rem;
 }
