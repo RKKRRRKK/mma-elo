@@ -44,27 +44,57 @@ async function fetchLadderData(queryParams) {
 
 async function fetchAndUpdateLadders() {
   const countriesLadder = await fetchLadderData(`
-    nationality,
-    COUNT(*) AS n_fighters,
-    AVG(current_elo) AS avg_elo,
-    MAX(current_elo) AS top_elo,
-    (SELECT name FROM fighters_enriched_new WHERE fighters_enriched_new.nationality = fighters_enriched_new.nationality ORDER BY current_elo DESC LIMIT 1) AS top_fighter
+WITH CTE1 AS (SELECT nationality, AVG(current_elo) as avg_elo, count(*) as n_fighters
+FROM fighters_enriched_new
+WHERE nationality != ''
+GROUP BY nationality
+ORDER BY n_fighters DESC
+LIMIT 10
+)
+,
+ 
+CTE2 AS (SELECT name, nationality, current_elo,  ROW_NUMBER() OVER (PARTITION BY nationality ORDER BY current_elo DESC) AS rank FROM fighters_enriched_new
+)
+
+SELECT CTE1.nationality,  CTE1.n_fighters, CTE1.avg_elo, CONCAT(CTE2.name, ' (', current_elo, ')') as best_fighter FROM CTE1
+LEFT JOIN CTE2  USING(nationality)
+WHERE CTE2.rank = 1
+ORDER BY avg_elo DESC;
   `)
 
   const placesLadder = await fetchLadderData(`
-    birthplace,
-    COUNT(*) AS n_fighters,
-    AVG(current_elo) AS avg_elo,
-    MAX(current_elo) AS top_elo,
-    (SELECT name FROM fighters_enriched_new WHERE fighters_enriched_new.birthplace = fighters_enriched_new.birthplace ORDER BY current_elo DESC LIMIT 1) AS top_fighter
+WITH CTE1 AS (SELECT birthplace, AVG(current_elo) as avg_elo, count(*) as n_fighters
+FROM fighters_enriched_new
+WHERE birthplace != ''
+GROUP BY birthplace
+HAVING count(*) > 100
+
+)
+,
+ 
+CTE2 AS (SELECT name, birthplace, current_elo,  ROW_NUMBER() OVER (PARTITION BY birthplace ORDER BY current_elo DESC) AS rank FROM fighters_enriched_new
+)
+
+SELECT CTE1.birthplace,  CTE1.n_fighters, CTE1.avg_elo, CONCAT(CTE2.name, ' (', current_elo, ')') as best_fighter FROM CTE1
+LEFT JOIN CTE2  USING(birthplace)
+WHERE CTE2.rank = 1
+ORDER BY avg_elo DESC
+LIMIT 10
+;
   `)
 
   const teamsLadder = await fetchLadderData(`
-    association,
-    COUNT(*) AS n_fighters,
-    AVG(current_elo) AS avg_elo,
-    MAX(current_elo) AS top_elo,
-    (SELECT name FROM fighters_enriched_new WHERE fighters_enriched_new.association = fighters_enriched_new.association ORDER BY current_elo DESC LIMIT 1) AS top_fighter
+WITH CTE1 AS (SELECT association, AVG(current_elo) as avg_elo, count(*) as n_fighters
+FROM fighters_enriched_new
+WHERE association != ''
+AND association NOT IN ('Freelance', 'Independent')
+GROUP BY association
+HAVING  count(*) > 50
+)
+
+SELECT association,  n_fighters, avg_elo FROM CTE1
+ORDER BY avg_elo DESC
+LIMIT 10; 
   `)
 
   writeComponent(
