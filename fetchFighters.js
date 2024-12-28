@@ -6,6 +6,7 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
+// 1. Fetch your main fighters data
 async function fetchFighters() {
   const { data, error } = await supabase
     .from('fighters_enriched_new')
@@ -18,6 +19,7 @@ async function fetchFighters() {
     process.exit(1)
   }
 
+  // Write these fighters into a Pinia store file
   const storeCode = `import { defineStore } from 'pinia';
 
 export const useFightersStore = defineStore('fighters', {
@@ -31,71 +33,42 @@ export const useFightersStore = defineStore('fighters', {
   console.log('Fighters store updated successfully.')
 }
 
-async function fetchLadderData(queryParams) {
-  const { data, error } = await supabase.from('fighters_enriched_new').select(queryParams)
-
+// 2. Fetch countries ladder data from your Postgres function
+async function fetchCountriesLadder() {
+  const { data, error } = await supabase.rpc('fetch_countries_ladder')
   if (error) {
-    console.error('Error fetching ladder data:', error)
+    console.error('Error fetching countries ladder:', error)
     process.exit(1)
   }
-
   return data
 }
 
+// 3. Fetch places ladder data from your Postgres function
+async function fetchPlacesLadder() {
+  const { data, error } = await supabase.rpc('fetch_places_ladder')
+  if (error) {
+    console.error('Error fetching places ladder:', error)
+    process.exit(1)
+  }
+  return data
+}
+
+// 4. Fetch teams ladder data from your Postgres function
+async function fetchTeamsLadder() {
+  const { data, error } = await supabase.rpc('fetch_team_ladder')
+  // Note: Make sure this matches the *exact* function name in your DB
+  if (error) {
+    console.error('Error fetching team ladder:', error)
+    process.exit(1)
+  }
+  return data
+}
+
+// 5. Orchestrate fetching all ladders + writing components
 async function fetchAndUpdateLadders() {
-  const countriesLadder = await fetchLadderData(`
-WITH CTE1 AS (SELECT nationality, AVG(current_elo) as avg_elo, count(*) as n_fighters
-FROM fighters_enriched_new
-WHERE nationality != ''
-GROUP BY nationality
-ORDER BY n_fighters DESC
-LIMIT 10
-)
-,
- 
-CTE2 AS (SELECT name, nationality, current_elo,  ROW_NUMBER() OVER (PARTITION BY nationality ORDER BY current_elo DESC) AS rank FROM fighters_enriched_new
-)
-
-SELECT CTE1.nationality,  CTE1.n_fighters, CTE1.avg_elo, CONCAT(CTE2.name, ' (', current_elo, ')') as best_fighter FROM CTE1
-LEFT JOIN CTE2  USING(nationality)
-WHERE CTE2.rank = 1
-ORDER BY avg_elo DESC;
-  `)
-
-  const placesLadder = await fetchLadderData(`
-WITH CTE1 AS (SELECT birthplace, AVG(current_elo) as avg_elo, count(*) as n_fighters
-FROM fighters_enriched_new
-WHERE birthplace != ''
-GROUP BY birthplace
-HAVING count(*) > 100
-
-)
-,
- 
-CTE2 AS (SELECT name, birthplace, current_elo,  ROW_NUMBER() OVER (PARTITION BY birthplace ORDER BY current_elo DESC) AS rank FROM fighters_enriched_new
-)
-
-SELECT CTE1.birthplace,  CTE1.n_fighters, CTE1.avg_elo, CONCAT(CTE2.name, ' (', current_elo, ')') as best_fighter FROM CTE1
-LEFT JOIN CTE2  USING(birthplace)
-WHERE CTE2.rank = 1
-ORDER BY avg_elo DESC
-LIMIT 10
-;
-  `)
-
-  const teamsLadder = await fetchLadderData(`
-WITH CTE1 AS (SELECT association, AVG(current_elo) as avg_elo, count(*) as n_fighters
-FROM fighters_enriched_new
-WHERE association != ''
-AND association NOT IN ('Freelance', 'Independent')
-GROUP BY association
-HAVING  count(*) > 50
-)
-
-SELECT association,  n_fighters, avg_elo FROM CTE1
-ORDER BY avg_elo DESC
-LIMIT 10; 
-  `)
+  const countriesLadder = await fetchCountriesLadder()
+  const placesLadder = await fetchPlacesLadder()
+  const teamsLadder = await fetchTeamsLadder()
 
   writeComponent(
     'src/components/TheCountriesLadder.vue',
@@ -109,6 +82,7 @@ LIMIT 10;
   console.log('Ladder components updated successfully.')
 }
 
+// 6. Generic function to write your ladder data into components
 function writeComponent(filePath, variableName, data, primaryField) {
   const formattedData = JSON.stringify(data, null, 2)
   const componentCode = `
@@ -119,7 +93,8 @@ function writeComponent(filePath, variableName, data, primaryField) {
       <Column field="${primaryField.toLowerCase()}" header="${primaryField}"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
       <Column field="avg_elo" header="Average Elo"></Column>
-      <Column field="top_fighter" header="Top Fighter"></Column>
+      <!-- Adjust the column name if your function returns "best_fighter" instead of "top_fighter" -->
+      <Column field="best_fighter" header="Top Fighter"></Column>
     </DataTable>
   </div>
 </template>
@@ -155,6 +130,7 @@ const ${variableName} = ref(${formattedData});
   console.log(`Updated component: ${filePath}`)
 }
 
+// 7. Run everything
 ;(async function () {
   await fetchFighters()
   await fetchAndUpdateLadders()
