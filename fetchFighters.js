@@ -26,7 +26,16 @@ async function fetchFighters() {
   console.log('Data date response:', data_date)
 
   if (error_date) {
-    console.error('Error fetching initial variables (date):', error)
+    console.error('Error fetching initial variables (date):', error_date)
+    process.exit(1)
+  }
+
+  const { data: data_status, error: error_status } = await supabase.rpc('fetch_status')
+
+  console.log('Data Status response:', data_status)
+
+  if (error_date) {
+    console.error('Error fetching status (date):', error_status)
     process.exit(1)
   }
 
@@ -35,7 +44,8 @@ async function fetchFighters() {
 export const useFightersStore = defineStore('fighters', {
   state: () => ({
     fighters: ${JSON.stringify(data, null, 2)},
-    date: ${JSON.stringify(data_date, null, 2)}
+    date: ${JSON.stringify(data_date, null, 2)},
+    status: ${JSON.stringify(data_status, null, 2)}
   })
 });
 `

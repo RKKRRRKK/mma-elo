@@ -10,6 +10,14 @@ const formattedDate = computed(() => {
   }
   return 'Date not available'
 })
+
+const formattedStatus = computed(() => {
+  if (fightersStore.status && fightersStore.status.length > 0) {
+    const { count_to_come, count_empty, count_new } = fightersStore.status[0]
+    return `Empty Pages:${count_empty}, Unannounced:${count_to_come}  New Fighters:${count_new}`
+  }
+  return 'status not available'
+})
 </script>
 
 <template>
@@ -18,6 +26,7 @@ const formattedDate = computed(() => {
     <p class="last-update">
       Last Updated On: <em>{{ formattedDate }}</em>
     </p>
+    <p class="status">{{ formattedStatus }}</p>
     <nav class="nav-links">
       <RouterLink to="/" class="nav-link">Main List</RouterLink>
       <RouterLink to="/ufc-rankings" class="nav-link">UFC Rankings</RouterLink>
@@ -69,6 +78,14 @@ const formattedDate = computed(() => {
   margin: 0;
 }
 
+.status {
+  position: absolute;
+  top: 1.5rem;
+  left: 40rem;
+  margin: 0;
+  color: #b9b9b9;
+}
+
 @media (max-width: 768px) {
   .title {
     font-size: 1rem;
@@ -80,6 +97,9 @@ const formattedDate = computed(() => {
     gap: 0.5rem;
   }
   .last-update {
+    display: none;
+  }
+  .status {
     display: none;
   }
 }

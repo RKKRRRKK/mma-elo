@@ -38,7 +38,7 @@ import ThePlacesLadder from '../components/ThePlacesLadder.vue'
   .lower-tables {
     transform: scale(0.7);
     margin-top: -10rem;
-    margin-left: -1rem;
+    margin-left: -2rem;
   }
 }
 </style>
