@@ -5,7 +5,6 @@ import { useFightersStore } from '@/stores/fighters'
 const fightersStore = useFightersStore()
 console.log('Fighters Store State:', fightersStore.$state)
 console.log('Fighters Store Date Only:', fightersStore.date)
-const lastUpdate = computed(() => fightersStore.date || 'Date not available')
 </script>
 
 <template>

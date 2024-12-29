@@ -23,6 +23,8 @@ async function fetchFighters() {
     .select('month,day,year,name')
     .limit(1)
 
+  console.log('Data date response:', data_date)
+
   if (error_date) {
     console.error('Error fetching initial variables (date):', error)
     process.exit(1)
