@@ -9,7 +9,7 @@
         <span class="p-inputgroup-addon">
           <i class="pi pi-search"></i>
         </span>
-        <InputText v-model="filters['global'].value" placeholder="Search" />
+        <InputText v-model="filters['global'].value" placeholder="Search (name,weight...)" />
         <Dropdown
           class="dropdown"
           v-model="CalcType"
