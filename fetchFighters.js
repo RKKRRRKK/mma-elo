@@ -18,11 +18,22 @@ async function fetchFighters() {
     process.exit(1)
   }
 
+  const { data_date, error_date } = await supabase
+    .from('initial_variables')
+    .select('month,day,year,name')
+    .limit(1)
+
+  if (error_date) {
+    console.error('Error fetching initial variables (date):', error)
+    process.exit(1)
+  }
+
   const storeCode = `import { defineStore } from 'pinia';
 
 export const useFightersStore = defineStore('fighters', {
   state: () => ({
-    fighters: ${JSON.stringify(data, null, 2)}
+    fighters: ${JSON.stringify(data, null, 2)},
+    date: ${JSON.stringify(data_date, null, 2)}
   })
 });
 `
