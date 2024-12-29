@@ -14,9 +14,9 @@ const formattedDate = computed(() => {
 const formattedStatus = computed(() => {
   if (fightersStore.status && fightersStore.status.length > 0) {
     const { count_to_come, count_empty, count_new } = fightersStore.status[0]
-    return `Empty Pages:${count_empty}, Unannounced:${count_to_come}  New Fighters:${count_new}`
+    return `Status: (Empty Pages ${count_empty} | Unannounced ${count_to_come} | New Fighters ${count_new})`
   }
-  return 'status not available'
+  return 'Status: (Empty Pages 0 | Unannounced 0 | New Fighters 0)'
 })
 </script>
 
