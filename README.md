@@ -1,11 +1,10 @@
 TODO:
 
-peak days = increment from day of creation of base table until #1 changes. 
+peak days = increment from day of creation of base table until #1 changes. -> done
+data of retrieval = for both top corner as well as the calculation of peak days.  -> done
+
 
 best_win = must write script eventually 
-
-data of retrieval = for both top corner as well as the calculation of peak days. 
-
 ufc rankings = scrape UFC site to supabase, adjust names, create view of 1k table vs scraped data 
 
 most active fighter per last 12 months (in top 1000)
