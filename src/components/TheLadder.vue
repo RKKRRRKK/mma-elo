@@ -52,6 +52,21 @@ import { FilterMatchMode } from '@primevue/core/api'
 
 const fightersStore = useFightersStore()
 const fighters = computed(() => fightersStore.fighters || [])
+const referenceDate = new Date('2024-12-26') //when the days peak was initially calculated
+
+onMounted(() => {
+  const now = new Date()
+  if (now <= referenceDate) return
+
+  const diffTime = now - referenceDate
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+
+  const jonJones = fighters.value.find((fighter) => fighter.name === 'Jon Jones')
+
+  if (jonJones) {
+    jonJones.days_peak = (jonJones.days_peak || 0) + diffDays
+  }
+})
 
 const CalcType = ref('normal calculation')
 const sortField = ref('peak_elo')
