@@ -3,15 +3,20 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref, computed, watch } from 'vue'
 import { useFightersStore } from '@/stores/fighters'
 const fightersStore = useFightersStore()
-console.log('Fighters Store State:', fightersStore.$state)
-console.log('Fighters Store Date Only:', fightersStore.date)
+const formattedDate = computed(() => {
+  if (fightersStore.date && fightersStore.date.length > 0) {
+    const { month, day, year, name } = fightersStore.date[0]
+    return `${month} ${day} ${year} (Event: ${name})`
+  }
+  return 'Date not available'
+})
 </script>
 
 <template>
   <header class="header">
     <div class="title">MMA ELO</div>
     <p class="last-update">
-      Last Updated On: <em>{{ fightersStore.date }}</em>
+      Last Updated On: <em>{{ formattedDate }}</em>
     </p>
     <nav class="nav-links">
       <RouterLink to="/" class="nav-link">Main List</RouterLink>
