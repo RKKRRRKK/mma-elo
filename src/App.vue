@@ -81,7 +81,7 @@ const formattedStatus = computed(() => {
 .status {
   position: absolute;
   top: 1.5rem;
-  left: 40rem;
+  left: 35rem;
   margin: 0;
   color: #b9b9b9;
 }
