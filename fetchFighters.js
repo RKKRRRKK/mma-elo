@@ -107,7 +107,7 @@ function writeComponent(filePath, variableName, data, primaryField, secondaryFie
 <template>
   <div>
     <h2 class="title">Top 10 ${secondaryField}</h2>
-    <DataTable class="table" :value="${variableName}" tableStyle="min-width: 50rem">
+    <DataTable class="table" :value="${variableName}" tableStyle="">
       <Column field="${primaryField.toLowerCase()}" header="${primaryField}"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
       <Column field="avg_elo" header="Average Elo"></Column>

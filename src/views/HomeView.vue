@@ -36,9 +36,9 @@ import ThePlacesLadder from '../components/ThePlacesLadder.vue'
 
 @media (max-width: 768px) {
   .lower-tables {
-    transform: scale(0.5);
+    transform: scale(0.7);
     margin-top: -10rem;
-    margin-left: -5rem;
+    margin-left: -1rem;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class="title">Top 10 Birthplaces</h2>
-    <DataTable class="table" :value="birthplaces" tableStyle="min-width: 50rem">
+    <DataTable class="table" :value="birthplaces" tableStyle="">
       <Column field="birthplace" header="Birthplace"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
       <Column field="avg_elo" header="Average Elo"></Column>

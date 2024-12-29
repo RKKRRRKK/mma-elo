@@ -2,7 +2,7 @@
   <div>
     <h2 class="title">Top 10 Teams</h2>
 
-    <DataTable class="table" :value="associations" tableStyle="min-width: 50rem">
+    <DataTable class="table" :value="associations" tableStyle="">
       <Column field="association" header="Association"></Column>
       <Column field="n_fighters" header="Number of Fighters"></Column>
       <Column field="avg_elo" header="Average Elo"></Column>
