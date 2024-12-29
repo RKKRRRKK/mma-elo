@@ -65,6 +65,7 @@ onMounted(() => {
 
   if (jonJones) {
     jonJones.days_peak = (jonJones.days_peak || 0) + diffDays
+    jonJones.days_peak_dom = (jonJones.days_peak_dom || 0) + diffDays
   }
 })
 
