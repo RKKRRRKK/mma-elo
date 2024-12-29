@@ -3,6 +3,8 @@ import { RouterLink, RouterView } from 'vue-router'
 import { ref, computed, watch } from 'vue'
 import { useFightersStore } from '@/stores/fighters'
 const fightersStore = useFightersStore()
+console.log('Fighters Store State:', fightersStore.$state)
+console.log('Fighters Store Date Only:', fightersStore.date)
 const lastUpdate = computed(() => fightersStore.date || 'Date not available')
 </script>
 
@@ -10,7 +12,7 @@ const lastUpdate = computed(() => fightersStore.date || 'Date not available')
   <header class="header">
     <div class="title">MMA ELO</div>
     <p class="last-update">
-      Last Updated On: <em>{{ lastUpdate }}</em>
+      Last Updated On: <em>{{ fightersStore.date }}</em>
     </p>
     <nav class="nav-links">
       <RouterLink to="/" class="nav-link">Main List</RouterLink>
