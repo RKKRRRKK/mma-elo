@@ -23,10 +23,12 @@ const formattedStatus = computed(() => {
 <template>
   <header class="header">
     <div class="title">MMA ELO</div>
-    <p class="last-update">
-      Last Updated On: <em>{{ formattedDate }}</em>
-    </p>
-    <p class="status">{{ formattedStatus }}</p>
+    <div class="update-status">
+      <p class="last-update">
+        Last Updated On: <em>{{ formattedDate }}</em>
+      </p>
+      <p class="status">{{ formattedStatus }}</p>
+    </div>
     <nav class="nav-links">
       <RouterLink to="/" class="nav-link">Main List</RouterLink>
       <RouterLink to="/ufc-rankings" class="nav-link">UFC Rankings</RouterLink>
@@ -70,20 +72,19 @@ const formattedStatus = computed(() => {
   color: RGB(239, 68, 68);
 }
 
-.last-update {
+.update-status {
   position: absolute;
   top: 1.5rem;
   left: 15rem;
   color: #b9b9b9;
+}
+
+.last-update {
   margin: 0;
 }
 
 .status {
-  position: absolute;
-  top: 1.5rem;
-  left: 35rem;
   margin: 0;
-  color: #b9b9b9;
 }
 
 @media (max-width: 768px) {
