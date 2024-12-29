@@ -1,10 +1,17 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { ref, computed, watch } from 'vue'
+import { useFightersStore } from '@/stores/fighters'
+const fightersStore = useFightersStore()
+const lastUpdate = computed(() => fightersStore.date || 'Date not available')
 </script>
 
 <template>
   <header class="header">
     <div class="title">MMA ELO</div>
+    <p class="last-update">
+      Last Updated On: <em>{{ lastUpdate }}</em>
+    </p>
     <nav class="nav-links">
       <RouterLink to="/" class="nav-link">Main List</RouterLink>
       <RouterLink to="/ufc-rankings" class="nav-link">UFC Rankings</RouterLink>
@@ -48,6 +55,14 @@ import { RouterLink, RouterView } from 'vue-router'
   color: RGB(239, 68, 68);
 }
 
+.last-update {
+  position: absolute;
+  top: 1.5rem;
+  left: 15rem;
+  color: #b9b9b9;
+  margin: 0;
+}
+
 @media (max-width: 768px) {
   .title {
     font-size: 1rem;
@@ -57,6 +72,9 @@ import { RouterLink, RouterView } from 'vue-router'
   .nav-links {
     font-size: 0.7rem;
     gap: 0.5rem;
+  }
+  .last-update {
+    display: none;
   }
 }
 </style>
