@@ -18,7 +18,7 @@ async function fetchFighters() {
     process.exit(1)
   }
 
-  const { data_date, error_date } = await supabase
+  const { data: data_date, error: error_date } = await supabase
     .from('initial_variables')
     .select('month,day,year,name')
     .limit(1)
