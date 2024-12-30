@@ -31,7 +31,7 @@ const formattedStatus = computed(() => {
     </div>
     <nav class="nav-links">
       <RouterLink to="/" class="nav-link">Main List</RouterLink>
-      <RouterLink to="/ufc-rankings" class="nav-link">UFC Rankings</RouterLink>
+      <RouterLink to="/ufc-rankings" class="nav-link">MMA Rankings</RouterLink>
       <RouterLink to="/about" class="nav-link">About</RouterLink>
     </nav>
   </header>
