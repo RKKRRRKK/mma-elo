@@ -27,7 +27,7 @@
       >
         <Column field="rank_elo" header="Elo Rank" sortable>
           <template #body="slotProps">
-            {{ slotProps.data.rank_elo === 0 ? '(champion)' : slotProps.data.rank_elo }}
+            {{ slotProps.data.rank_elo === 0 ? '0 (champion)' : slotProps.data.rank_elo }}
           </template>
         </Column>
 
