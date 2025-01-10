@@ -8,6 +8,7 @@
     If a fighter is marked <strong style="color: red">red</strong>, it means their UFC rank is
     <strong>4</strong> or more positions higher than it should be (overrated).
   </p>
+
   <div class="rankings-grid">
     <div
       v-for="(fighters, weightClass) in filteredFighters"
@@ -16,7 +17,14 @@
     >
       <h3 class="subtitle">{{ weightClass }}</h3>
 
-      <DataTable :value="fighters" tableStyle="min-width: 50rem" :rowClass="rowClassName">
+      <DataTable
+        :value="fighters"
+        responsiveLayout="scroll"
+        scrollable
+        scrollDirection="horizontal"
+        tableStyle="min-width: 50rem"
+        :rowClass="rowClassName"
+      >
         <Column field="rank_elo" header="Elo Rank" sortable>
           <template #body="slotProps">
             {{ slotProps.data.rank_elo === 0 ? '(champion)' : slotProps.data.rank_elo }}
@@ -28,11 +36,13 @@
             {{ slotProps.data.ufc_rank === 0 ? '0 (champion)' : slotProps.data.ufc_rank }}
           </template>
         </Column>
+
         <Column field="name" header="Name" sortable>
           <template #body="slotProps">
             {{ slotProps.data.name }}
           </template>
         </Column>
+
         <Column field="current_elo" header="Current Elo" sortable>
           <template #body="slotProps">
             {{ slotProps.data.current_elo }}
@@ -85,23 +95,28 @@ const rowClassName = (rowData) => {
 <style scoped>
 .rankings-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  padding: 4rem;
-  padding-top: 0rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .table-wrapper {
-  border: solid RGBA(255, 255, 255, 0.15) 0.2rem;
+  border: solid rgba(255, 255, 255, 0.15) 0.2rem;
   border-radius: 1.5rem;
+  overflow-x: auto;
   transform: scale(0.9);
+}
+
+.title {
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .subtitle {
   margin: 0;
   text-align: center;
-  font-size: 1.5rem;
-  padding: 1.5rem;
+  font-size: 1.25rem;
+  padding: 1rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
@@ -111,21 +126,57 @@ const rowClassName = (rowData) => {
   background-color: rgba(185, 28, 28, 0.25);
 }
 
-.title {
-  padding-top: 2rem;
-  text-align: center;
+.notice {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: gray;
+  font-size: 0.9rem;
 }
 
 :deep .highlight-red {
   background-color: rgba(179, 9, 9, 0.343) !important;
 }
-
 :deep .highlight-green {
   background-color: rgba(3, 120, 24, 0.471) !important;
 }
 
-.notice {
-  padding-left: 10rem;
-  color: gray;
+@media (min-width: 768px) {
+  .rankings-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.4rem;
+  }
+  .table-wrapper {
+    overflow-x: visible;
+  }
+}
+
+@media (min-width: 1024px) {
+  .rankings-grid {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 4rem;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+  }
+  .notice {
+    padding-left: 10rem;
+    color: gray;
+    font-size: 1rem;
+  }
+  .table-wrapper {
+    overflow-x: visible;
+  }
+
+  .notice {
+    padding-left: 10rem;
+    color: gray;
+    font-size: 1rem;
+  }
 }
 </style>
