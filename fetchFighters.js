@@ -159,7 +159,7 @@ const ${variableName} = ref(${formattedData});
 }
 
 async function fetchAndWriteUFCStore() {
-  const { data, error } = await supabase.rpc('get_ufc_ranks')
+  const { data, error } = await supabase.rpc('fetch_ufc_ranks')
   if (error) {
     console.error('Error fetching get_ufc_ranks:', error)
     process.exit(1)
