@@ -158,8 +158,29 @@ const ${variableName} = ref(${formattedData});
   console.log(`Updated component: ${filePath}`)
 }
 
+async function fetchAndWriteUFCStore() {
+  const { data, error } = await supabase.rpc('get_ufc_ranks')
+  if (error) {
+    console.error('Error fetching get_ufc_ranks:', error)
+    process.exit(1)
+  }
+
+  const storeCode = `import { defineStore } from 'pinia';
+
+export const useUFCStore = defineStore('ufc', {
+  state: () => ({
+    fighters: ${JSON.stringify(data, null, 2)},
+  })
+});
+`
+
+  fs.writeFileSync('src/stores/ufc_store.js', storeCode, 'utf-8')
+  console.log('UFC store updated successfully from get_ufc_ranks')
+}
+
 // 7. Run everything
 ;(async function () {
   await fetchFighters()
   await fetchAndUpdateLadders()
+  await fetchAndWriteUFCStore()
 })()

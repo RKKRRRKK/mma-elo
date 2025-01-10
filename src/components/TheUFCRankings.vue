@@ -8,22 +8,10 @@
     >
       <h3 class="subtitle">{{ weightClass }}</h3>
       <DataTable :value="fighters" tableStyle="min-width: 50rem">
-        <Column field="rank" header="Elo Rank (difference)" sortable>
-          <template #body="slotProps">
-            {{ slotProps.data.rank }}
-            <span v-if="slotProps.data.rankDifference !== null">
-              <span v-if="slotProps.data.rankDifference > 0" class="rank-up">
-                (▲ {{ slotProps.data.rankDifference }})
-              </span>
-              <span v-else-if="slotProps.data.rankDifference < 0" class="rank-down">
-                (▼ {{ Math.abs(slotProps.data.rankDifference) }})
-              </span>
-            </span>
-          </template>
-        </Column>
-        <Column field="ufc_position" header="UFC Rank" sortable></Column>
-        <Column field="name" header="Name"></Column>
-        <Column field="current_elo" header="Current Elo"></Column>
+        <Column field="rank_elo" header="Elo Rank" sortable />
+        <Column field="ufc_rank" header="UFC Rank" sortable />
+        <Column field="name" header="Name" sortable />
+        <Column field="current_elo" header="Current Elo" sortable />
       </DataTable>
     </div>
   </div>
@@ -31,45 +19,31 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useFightersStore } from '@/stores/fighters'
+import { useUFCStore } from '@/stores/ufc_store'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
-const fightersStore = useFightersStore()
+const ufcStore = useUFCStore()
 
 const weightClasses = [
-  'flyweight',
-  'bantamweight',
-  'featherweight',
-  'lightweight',
-  'welterweight',
-  'middleweight',
-  'light heavyweight',
-  'heavyweight'
+  'Flyweight',
+  'Bantamweight',
+  'Featherweight',
+  'Lightweight',
+  'Welterweight',
+  'Middleweight',
+  'Light Heavyweight',
+  'Heavyweight'
 ]
 
 const filteredFighters = computed(() => {
-  const rankedFighters = {}
+  const grouped = {}
 
-  weightClasses.forEach((weightClass) => {
-    const fightersInClass = fightersStore.fighters
-      .filter((fighter) => fighter.ufc_class === weightClass)
-      .sort((a, b) => b.current_elo - a.current_elo)
-      .map((fighter, index) => {
-        const rank = index
-        const ufcPosition = Number(fighter.ufc_position)
-        const difference = !isNaN(ufcPosition) ? ufcPosition - rank : null
-        return {
-          ...fighter,
-          rank,
-          rankDifference: difference
-        }
-      })
-
-    rankedFighters[weightClass] = fightersInClass
+  weightClasses.forEach((wc) => {
+    grouped[wc] = ufcStore.fighters.filter((fighter) => fighter.weightclass === wc)
   })
 
-  return rankedFighters
+  return grouped
 })
 </script>
 
@@ -105,13 +79,5 @@ const filteredFighters = computed(() => {
 .title {
   padding-top: 2rem;
   text-align: center;
-}
-
-.rank-up {
-  color: green;
-}
-
-.rank-down {
-  color: red;
 }
 </style>
