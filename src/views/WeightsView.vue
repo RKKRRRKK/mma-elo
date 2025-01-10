@@ -4,6 +4,12 @@ import TheUFCRankings from '../components/TheUFCRankings.vue'
 
 <template>
   <main>
-    <TheUFCRankings></TheUFCRankings>
+    <TheUFCRankings class="TheUFCRankings"></TheUFCRankings>
   </main>
 </template>
+
+<style scoped>
+.TheUFCRankings {
+  margin: 2rem;
+}
+</style>
