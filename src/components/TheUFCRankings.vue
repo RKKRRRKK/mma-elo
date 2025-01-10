@@ -1,5 +1,13 @@
 <template>
   <h1 class="title">UFC Ranking Comparison vs current Elo (top 1000)</h1>
+  <p class="notice">
+    *If a fighter is marked <strong style="color: green">green</strong>, it means their UFC rank is
+    <strong>4</strong> or more positions lower than it should be (underrated).
+  </p>
+  <p class="notice">
+    If a fighter is marked <strong style="color: red">red</strong>, it means their UFC rank is
+    <strong>4</strong> or more positions higher than it should be (overrated).
+  </p>
   <div class="rankings-grid">
     <div
       v-for="(fighters, weightClass) in filteredFighters"
@@ -7,11 +15,29 @@
       class="table-wrapper"
     >
       <h3 class="subtitle">{{ weightClass }}</h3>
-      <DataTable :value="fighters" tableStyle="min-width: 50rem">
-        <Column field="rank_elo" header="Elo Rank" sortable />
-        <Column field="ufc_rank" header="UFC Rank" sortable />
-        <Column field="name" header="Name" sortable />
-        <Column field="current_elo" header="Current Elo" sortable />
+
+      <DataTable :value="fighters" tableStyle="min-width: 50rem" :rowClass="rowClassName">
+        <Column field="rank_elo" header="Elo Rank" sortable>
+          <template #body="slotProps">
+            {{ slotProps.data.rank_elo === 0 ? '(champion)' : slotProps.data.rank_elo }}
+          </template>
+        </Column>
+
+        <Column field="ufc_rank" header="UFC Rank" sortable>
+          <template #body="slotProps">
+            {{ slotProps.data.ufc_rank === 0 ? '0 (champion)' : slotProps.data.ufc_rank }}
+          </template>
+        </Column>
+        <Column field="name" header="Name" sortable>
+          <template #body="slotProps">
+            {{ slotProps.data.name }}
+          </template>
+        </Column>
+        <Column field="current_elo" header="Current Elo" sortable>
+          <template #body="slotProps">
+            {{ slotProps.data.current_elo }}
+          </template>
+        </Column>
       </DataTable>
     </div>
   </div>
@@ -38,13 +64,22 @@ const weightClasses = [
 
 const filteredFighters = computed(() => {
   const grouped = {}
-
   weightClasses.forEach((wc) => {
-    grouped[wc] = ufcStore.fighters.filter((fighter) => fighter.weightclass === wc)
+    grouped[wc] = ufcStore.fighters.filter((f) => f.weightclass === wc)
   })
-
   return grouped
 })
+
+const rowClassName = (rowData) => {
+  let diff = rowData.rank_elo - rowData.ufc_rank
+  if (diff >= 4) {
+    return 'highlight-red'
+  } else if (diff <= -4) {
+    return 'highlight-green'
+  } else {
+    return ''
+  }
+}
 </script>
 
 <style scoped>
@@ -79,5 +114,18 @@ const filteredFighters = computed(() => {
 .title {
   padding-top: 2rem;
   text-align: center;
+}
+
+:deep .highlight-red {
+  background-color: rgba(179, 9, 9, 0.343) !important;
+}
+
+:deep .highlight-green {
+  background-color: rgba(3, 120, 24, 0.471) !important;
+}
+
+.notice {
+  padding-left: 10rem;
+  color: gray;
 }
 </style>

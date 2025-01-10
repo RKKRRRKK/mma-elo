@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import WeightsView from '../views/WeightsView.vue'
+import AnalyticsView from '../views/AnalyticsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/ufc-rankings',
       name: 'ufc-rankings',
       component: WeightsView
+    },
+    {
+      path: '/analytics',
+      name: 'analytics',
+      component: AnalyticsView
     },
     {
       path: '/about',

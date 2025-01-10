@@ -25,6 +25,7 @@
       :sortField="sortField"
       :sortOrder="-1"
       :filters="filters"
+      :globalFilterFields="dataTableGlobalFilterFields"
       paginator
       :rows="10"
       responsiveLayout="scroll"
@@ -53,6 +54,30 @@ import { FilterMatchMode } from '@primevue/core/api'
 const fightersStore = useFightersStore()
 const fighters = computed(() => fightersStore.fighters || [])
 const referenceDate = new Date('2024-12-26') //when the days peak was initially calculated
+
+const dataTableGlobalFilterFields = computed(() => {
+  if (CalcType.value === 'domination calculation') {
+    return [
+      'rank_elo_dom',
+      'name',
+      'peak_elo_dom',
+      'current_elo_dom',
+      'days_peak_dom',
+      'weight_class',
+      'nationality'
+    ]
+  } else {
+    return [
+      'rank_elo',
+      'name',
+      'peak_elo',
+      'current_elo',
+      'days_peak',
+      'weight_class',
+      'nationality'
+    ]
+  }
+})
 
 onMounted(() => {
   const now = new Date()
