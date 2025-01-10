@@ -1,54 +1,82 @@
 <template>
-  <h1 class="title">UFC Ranking Comparison vs current Elo (top 1000)</h1>
-  <p class="notice">
-    *If a fighter is marked <strong style="color: green">green</strong>, it means their UFC rank is
-    <strong>4</strong> or more positions lower than it should be (underrated).
-  </p>
-  <p class="notice">
-    If a fighter is marked <strong style="color: red">red</strong>, it means their UFC rank is
-    <strong>4</strong> or more positions higher than it should be (overrated).
-  </p>
+  <div class="margin-wrap">
+    <h1 class="title">UFC Ranking Comparison vs current Elo (top 1000)</h1>
+    <p class="notice">
+      *If a fighter is marked <strong style="color: green">green</strong>, it means their UFC rank
+      is <strong>4</strong> or more positions lower than it should be (underrated).
+    </p>
+    <p class="notice">
+      If a fighter is marked <strong style="color: red">red</strong>, it means their UFC rank is
+      <strong>4</strong> or more positions higher than it should be (overrated).
+    </p>
 
-  <div class="rankings-grid">
-    <div
-      v-for="(fighters, weightClass) in filteredFighters"
-      :key="weightClass"
-      class="table-wrapper"
-    >
-      <h3 class="subtitle">{{ weightClass }}</h3>
-
-      <DataTable
-        :value="fighters"
-        responsiveLayout="scroll"
-        scrollable
-        scrollDirection="horizontal"
-        tableStyle="min-width: 50rem"
-        :rowClass="rowClassName"
+    <div class="rankings-grid">
+      <div
+        v-for="(fighters, weightClass) in filteredFighters"
+        :key="weightClass"
+        class="table-wrapper"
       >
-        <Column field="rank_elo" header="Elo Rank" sortable>
-          <template #body="slotProps">
-            {{ slotProps.data.rank_elo === 0 ? '0 (champion)' : slotProps.data.rank_elo }}
-          </template>
-        </Column>
+        <h3 class="subtitle">{{ weightClass }}</h3>
 
-        <Column field="ufc_rank" header="UFC Rank" sortable>
-          <template #body="slotProps">
-            {{ slotProps.data.ufc_rank === 0 ? '0 (champion)' : slotProps.data.ufc_rank }}
-          </template>
-        </Column>
+        <DataTable
+          :value="fighters"
+          responsiveLayout="scroll"
+          scrollable
+          scrollDirection="horizontal"
+          tableStyle="min-width: 40rem"
+          :rowClass="rowClassName"
+        >
+          <Column
+            field="rank_elo"
+            header="Elo Rank"
+            sortable
+            headerStyle="width: 1rem"
+            bodyStyle="width: 1rem"
+          >
+            <template #body="slotProps">
+              {{ slotProps.data.rank_elo === 0 ? 'Champion' : slotProps.data.rank_elo }}
+            </template>
+          </Column>
 
-        <Column field="name" header="Name" sortable>
-          <template #body="slotProps">
-            {{ slotProps.data.name }}
-          </template>
-        </Column>
+          <Column
+            field="ufc_rank"
+            header="UFC Rank"
+            sortable
+            headerStyle="width: 1rem"
+            bodyStyle="width: 1rem"
+          >
+            <template #body="slotProps">
+              {{ slotProps.data.ufc_rank === 0 ? 'Champion' : slotProps.data.ufc_rank }}
+            </template>
+          </Column>
 
-        <Column field="current_elo" header="Current Elo" sortable>
-          <template #body="slotProps">
-            {{ slotProps.data.current_elo }}
-          </template>
-        </Column>
-      </DataTable>
+          <Column
+            field="name"
+            header="Name"
+            headerStyle="width: 15rem"
+            bodyStyle="width: 15rem"
+            sortable
+          >
+            <template #body="slotProps">
+              <span style="letter-spacing: 0.15rem">
+                {{ slotProps.data.name }}
+              </span>
+            </template>
+          </Column>
+
+          <Column
+            field="current_elo"
+            header="Current Elo"
+            headerStyle="width: 5rem"
+            bodyStyle="width: 5rem"
+            sortable
+          >
+            <template #body="slotProps">
+              {{ slotProps.data.current_elo }}
+            </template>
+          </Column>
+        </DataTable>
+      </div>
     </div>
   </div>
 </template>
@@ -104,7 +132,7 @@ const rowClassName = (rowData) => {
   border: solid rgba(255, 255, 255, 0.15) 0.2rem;
   border-radius: 1.5rem;
   overflow-x: auto;
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
 .title {
@@ -140,6 +168,10 @@ const rowClassName = (rowData) => {
   background-color: rgba(3, 120, 24, 0.471) !important;
 }
 
+.margin-wrap {
+  margin: 1rem;
+}
+
 @media (min-width: 768px) {
   .rankings-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -152,6 +184,10 @@ const rowClassName = (rowData) => {
   }
   .table-wrapper {
     overflow-x: visible;
+  }
+
+  .margin-wrap {
+    margin: 0rem;
   }
 }
 
@@ -177,6 +213,10 @@ const rowClassName = (rowData) => {
     padding-left: 10rem;
     color: gray;
     font-size: 1rem;
+  }
+
+  .margin-wrap {
+    margin: 0rem;
   }
 }
 </style>
