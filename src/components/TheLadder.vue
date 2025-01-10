@@ -3,7 +3,7 @@
     <div class="upper_part">
       <div class="title_wrap">
         <h2>G.O.A.T List</h2>
-        <h3>(TOP 1000)</h3>
+        <h3>(TOP 1000 by 'normal' peak_elo)</h3>
       </div>
       <div class="p-inputgroup search-bar">
         <span class="p-inputgroup-addon">
