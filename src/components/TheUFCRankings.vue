@@ -60,7 +60,7 @@
             <template #body="slotProps">
               <span style="letter-spacing: 0.1rem">
                 {{
-                  slotProps.data.name === 'missing - not top 1000'
+                  slotProps.data.name === 'Missing - Not in Top 1000'
                     ? slotProps.data.name
                     : slotProps.data.name.toUpperCase()
                 }}
@@ -116,7 +116,7 @@ const rowClassName = (rowData) => {
   let diff = rowData.rank_elo - rowData.ufc_rank
   let name = rowData.name
 
-  if (name == 'missing - not top 1000') {
+  if (name == 'Missing - Not in Top 1000') {
     return 'hide-gray'
   } else if (diff >= 4) {
     return 'highlight-red'
