@@ -34,7 +34,7 @@
             bodyStyle="width: 1rem"
           >
             <template #body="slotProps">
-              {{ slotProps.data.rank_elo === 0 ? 'Champion' : slotProps.data.rank_elo }}
+              {{ slotProps.data.rank_elo === 0 ? 'CHAMP' : slotProps.data.rank_elo }}
             </template>
           </Column>
 
@@ -46,7 +46,7 @@
             bodyStyle="width: 1rem"
           >
             <template #body="slotProps">
-              {{ slotProps.data.ufc_rank === 0 ? 'Champion' : slotProps.data.ufc_rank }}
+              {{ slotProps.data.ufc_rank === 0 ? 'CHAMP' : slotProps.data.ufc_rank }}
             </template>
           </Column>
 
@@ -58,8 +58,12 @@
             sortable
           >
             <template #body="slotProps">
-              <span style="letter-spacing: 0.15rem">
-                {{ slotProps.data.name }}
+              <span style="letter-spacing: 0.1rem">
+                {{
+                  slotProps.data.name === 'missing - not top 1000'
+                    ? slotProps.data.name
+                    : slotProps.data.name.toUpperCase()
+                }}
               </span>
             </template>
           </Column>
@@ -110,7 +114,11 @@ const filteredFighters = computed(() => {
 
 const rowClassName = (rowData) => {
   let diff = rowData.rank_elo - rowData.ufc_rank
-  if (diff >= 4) {
+  let name = rowData.name
+
+  if (name == 'missing - not top 1000') {
+    return 'hide-gray'
+  } else if (diff >= 4) {
     return 'highlight-red'
   } else if (diff <= -4) {
     return 'highlight-green'
@@ -170,6 +178,11 @@ const rowClassName = (rowData) => {
 
 .margin-wrap {
   margin: 1rem;
+}
+
+:deep .hide-gray {
+  background-color: rgba(128, 128, 128, 0.101) !important;
+  color: gray !important;
 }
 
 @media (min-width: 768px) {
