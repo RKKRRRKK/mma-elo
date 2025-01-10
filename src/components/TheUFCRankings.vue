@@ -1,5 +1,5 @@
 <template>
-  <h1 class="title">UFC Ranking Comparison (vs current Elo)</h1>
+  <h1 class="title">UFC Ranking Comparison vs current Elo (top 1000)</h1>
   <div class="rankings-grid">
     <div
       v-for="(fighters, weightClass) in filteredFighters"
