@@ -203,6 +203,11 @@ const rowClassName = (rowData) => {
   color: rgb(26, 26, 24); /* Dark brown text for contrast */
   font-weight: bold;
   font-size: 1.11rem;
+  text-shadow:
+    0.1px 0 0 rgb(189, 173, 98),
+    0 0.1px 0 rgb(189, 173, 98),
+    -0.1px 0 0 rgb(189, 173, 98),
+    0 -0.1px 0 rgb(189, 173, 98);
 }
 
 @media (min-width: 768px) {
