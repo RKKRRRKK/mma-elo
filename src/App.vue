@@ -126,6 +126,11 @@ const closeMenuOutside = () => {
   font-weight: bold;
 }
 
+.nav-link:focus {
+  color: RGB(239, 68, 68);
+  font-weight: bold;
+}
+
 .update-status {
   position: absolute;
   top: 1.5rem;
