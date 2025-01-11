@@ -123,6 +123,7 @@ const closeMenuOutside = () => {
 
 .nav-link:hover {
   color: RGB(239, 68, 68);
+  font-weight: bold;
 }
 
 .update-status {
