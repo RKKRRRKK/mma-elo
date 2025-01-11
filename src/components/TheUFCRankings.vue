@@ -1,14 +1,20 @@
 <template>
   <div class="margin-wrap">
     <h1 class="title">UFC Ranking Comparison vs current Elo (top 1000)</h1>
-    <p class="notice">
-      *If a fighter is marked <strong style="color: green">green</strong>, it means their UFC rank
-      is <strong>4</strong> or more positions lower than it should be (underrated).
-    </p>
-    <p class="notice">
-      If a fighter is marked <strong style="color: red">red</strong>, it means their UFC rank is
-      <strong>4</strong> or more positions higher than it should be (overrated).
-    </p>
+    <div class="notice-wrap">
+      <p class="notice">
+        *If a fighter is marked <strong style="color: green">green</strong>, it means their UFC rank
+        is <strong>4</strong> or more positions lower than it should be (underrated).
+      </p>
+      <p class="notice">
+        If a fighter is marked <strong style="color: red">red</strong>, it means their UFC rank is
+        <strong>4</strong> or more positions higher than it should be (overrated).
+      </p>
+      <p class="notice">
+        If a fighter is a <strong>champion</strong> according to both ranks, their row will be
+        marked a. <strong style="color: yellow">golden</strong> color
+      </p>
+    </div>
 
     <div class="rankings-grid">
       <div
@@ -118,6 +124,8 @@ const rowClassName = (rowData) => {
 
   if (name == 'Missing - Not in Top 1000') {
     return 'hide-gray'
+  } else if (diff == 0 && rowData.rank_elo == 0) {
+    return 'golden'
   } else if (diff >= 4) {
     return 'highlight-red'
   } else if (diff <= -4) {
@@ -185,6 +193,18 @@ const rowClassName = (rowData) => {
   color: gray !important;
 }
 
+:deep .golden {
+  background: linear-gradient(
+    45deg,
+    rgba(255, 217, 0, 0.6),
+    rgba(255, 172, 0, 0.65),
+    rgba(255, 220, 115, 0.6)
+  );
+  color: rgb(26, 26, 24); /* Dark brown text for contrast */
+  font-weight: bold;
+  font-size: 1.11rem;
+}
+
 @media (min-width: 768px) {
   .rankings-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -201,6 +221,17 @@ const rowClassName = (rowData) => {
 
   .margin-wrap {
     margin: 0rem;
+  }
+  .notice {
+    padding-left: 10rem;
+    color: gray;
+    font-size: 1rem;
+    margin-bottom: -1rem;
+  }
+  .notice-wrap {
+    padding-bottom: 0rem;
+    padding-top: 1rem;
+    margin-bottom: -4rem;
   }
 }
 
@@ -226,6 +257,12 @@ const rowClassName = (rowData) => {
     padding-left: 10rem;
     color: gray;
     font-size: 1rem;
+    margin-bottom: -1rem;
+  }
+  .notice-wrap {
+    padding-bottom: 0rem;
+    padding-top: 1rem;
+    margin-bottom: -4rem;
   }
 
   .margin-wrap {

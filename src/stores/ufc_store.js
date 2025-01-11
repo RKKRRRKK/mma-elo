@@ -4,7 +4,7 @@ export const useUFCStore = defineStore('ufc', {
   state: () => ({
     fighters: [
       {
-        rank_elo: 1,
+        rank_elo: 0,
         ufc_rank: 0,
         weightclass: 'Bantamweight',
         name: 'Merab Testing',
@@ -112,7 +112,7 @@ export const useUFCStore = defineStore('ufc', {
         rank_elo: 16,
         ufc_rank: 14,
         weightclass: 'Bantamweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
@@ -228,7 +228,7 @@ export const useUFCStore = defineStore('ufc', {
         current_elo: 1507.85
       },
       {
-        rank_elo: 1,
+        rank_elo: 0,
         ufc_rank: 0,
         weightclass: 'Flyweight',
         name: 'Alexandre Pantoja',
@@ -322,25 +322,25 @@ export const useUFCStore = defineStore('ufc', {
         rank_elo: 14,
         ufc_rank: 9,
         weightclass: 'Flyweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
         rank_elo: 15,
         ufc_rank: 13,
         weightclass: 'Flyweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
         rank_elo: 16,
         ufc_rank: 15,
         weightclass: 'Flyweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
-        rank_elo: 1,
+        rank_elo: 0,
         ufc_rank: 0,
         weightclass: 'Heavyweight',
         name: 'Jon Jones',
@@ -441,14 +441,14 @@ export const useUFCStore = defineStore('ufc', {
         rank_elo: 15,
         ufc_rank: 15,
         weightclass: 'Heavyweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
         rank_elo: 16,
         ufc_rank: 11,
         weightclass: 'Heavyweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
@@ -560,11 +560,11 @@ export const useUFCStore = defineStore('ufc', {
         rank_elo: 16,
         ufc_rank: 15,
         weightclass: 'Light Heavyweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
-        rank_elo: 1,
+        rank_elo: 0,
         ufc_rank: 0,
         weightclass: 'Lightweight',
         name: 'Islam Makhachev',
@@ -672,11 +672,11 @@ export const useUFCStore = defineStore('ufc', {
         rank_elo: 16,
         ufc_rank: 14,
         weightclass: 'Lightweight',
-        name: 'missing - not top 1000',
+        name: 'Missing - Not in Top 1000',
         current_elo: 417
       },
       {
-        rank_elo: 1,
+        rank_elo: 0,
         ufc_rank: 0,
         weightclass: 'Middleweight',
         name: 'Dricus Du Plessis',
@@ -788,7 +788,7 @@ export const useUFCStore = defineStore('ufc', {
         current_elo: 1518.43
       },
       {
-        rank_elo: 1,
+        rank_elo: 0,
         ufc_rank: 0,
         weightclass: 'Welterweight',
         name: 'Belal Muhammad',
