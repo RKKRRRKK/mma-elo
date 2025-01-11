@@ -22,29 +22,30 @@ const formattedStatus = computed(() => {
 })
 
 const isMenuOpen = ref(false)
-
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
 
 const startX = ref(0)
-
 const handleTouchStart = (e) => {
   if (e.touches.length > 0) {
     startX.value = e.touches[0].clientX
   }
 }
-
 const handleTouchMove = (e) => {}
-
 const handleTouchEnd = (e) => {
   if (e.changedTouches.length > 0) {
     const endX = e.changedTouches[0].clientX
     const diffX = endX - startX.value
-
     if (diffX > 50) {
       isMenuOpen.value = false
     }
+  }
+}
+
+const closeMenuOutside = () => {
+  if (isMenuOpen.value) {
+    isMenuOpen.value = false
   }
 }
 </script>
@@ -57,7 +58,6 @@ const handleTouchEnd = (e) => {
       <span class="bar"></span>
       <span class="bar"></span>
     </button>
-
     <div class="update-status">
       <p class="last-update">
         Last Updated On: <em>{{ formattedDate }}</em>
@@ -76,7 +76,7 @@ const handleTouchEnd = (e) => {
       <RouterLink to="/about" class="nav-link">About</RouterLink>
     </nav>
   </header>
-  <div :class="{ 'wrap-blur': isMenuOpen }">
+  <div :class="{ 'wrap-blur': isMenuOpen }" @click="closeMenuOutside">
     <main class="main-content">
       <RouterView />
     </main>
@@ -139,6 +139,7 @@ const handleTouchEnd = (e) => {
 .status {
   margin: 0;
 }
+
 .wrap-blur {
   filter: blur(8px);
   transition: all 0.33s ease-in-out;
@@ -149,7 +150,6 @@ const handleTouchEnd = (e) => {
   background: none;
   border: none;
   cursor: pointer;
-
   position: relative;
   width: 25px;
   height: 25px;
