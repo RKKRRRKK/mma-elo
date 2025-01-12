@@ -26,6 +26,11 @@
         the elo calculation slightly, with the "domination" calculation adding 50% more weight to
         finishes and 100% more weight to first round finishes
       </p>
+      <p>
+        The UFC Leaderboards provide a way to see how my Elo system would re-order the official UFC
+        rankings. With colors denoting significant deviations (more on the page). Excuse my
+        excessive styling!
+      </p>
     </header>
 
     <article id="backstory" class="about-page__backstory">
