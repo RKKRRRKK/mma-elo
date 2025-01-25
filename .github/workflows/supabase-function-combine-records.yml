@@ -12,9 +12,9 @@ jobs:
       - name: Trigger Supabase SQL Function
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
+          SUPABASE_API_KEY: ${{ secrets.SUPABASE_KEY }}
         run: |
           curl -X POST "${SUPABASE_URL}/rest/v1/rpc/insert_new_fight_records" \
           -H "Content-Type: application/json" \
-          -H "apikey: ${SUPABASE_API_KEY}" \
-          -H "Authorization: Bearer ${SUPABASE_API_KEY}"
+          -H "apikey: ${SUPABASE_KEY}" \
+          -H "Authorization: Bearer ${SUPABASE_KEY}"
