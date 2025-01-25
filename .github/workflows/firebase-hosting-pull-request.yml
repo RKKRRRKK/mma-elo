@@ -2,7 +2,8 @@ name: Scheduled Deployment to Firebase Hosting
 
 on:
   schedule:
-    - cron: '0 14 * * 1'  # monday 2 pm
+    - cron: '0 14 * * 1'  # Monday 2 pm
+    - cron: '0 14 * * 3'  # Wednesday 2 pm
   workflow_dispatch:      # Allows manual triggering of the workflow
 
 jobs:
