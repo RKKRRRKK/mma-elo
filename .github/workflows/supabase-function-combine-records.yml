@@ -1,6 +1,7 @@
 name: Trigger Supabase Function To Combine Records
 
 on:
+  workflow_dispatch: 
   schedule:
     - cron: "0 13 * * 1"
 
