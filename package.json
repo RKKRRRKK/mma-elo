@@ -15,10 +15,12 @@
   "dependencies": {
     "@primevue/themes": "^4.0.7",
     "@supabase/supabase-js": "^2.46.1",
+    "echarts": "^5.6.0",
     "pinia": "^2.1.7",
     "primevue": "^4.0.7",
     "sys": "^0.0.1",
     "vue": "^3.4.29",
+    "vue-echarts": "^7.0.3",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {

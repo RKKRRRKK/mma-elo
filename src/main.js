@@ -7,6 +7,11 @@ import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config'
 import { definePreset } from '@primevue/themes'
+import ECharts from 'vue-echarts'
+import * as echarts from 'echarts'
+import theme from '@/assets/dark.js'
+
+echarts.registerTheme('dark', theme)
 
 const MyPreset = definePreset(Nora, {
   semantic: {
@@ -45,5 +50,5 @@ app.use(PrimeVue, {
 })
 app.use(createPinia())
 app.use(router)
-
+app.component('v-chart', ECharts)
 app.mount('#app')
