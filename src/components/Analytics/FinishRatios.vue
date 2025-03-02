@@ -3,9 +3,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import ECharts from 'vue-echarts'
 import 'echarts'
+import { useStateStore } from '@/stores/state'
+
+const stateStore = useStateStore()
+
+onMounted(() => {
+  stateStore.setPageLoaded(true)
+})
 
 const fightFinishes = {
   submissions: 142,

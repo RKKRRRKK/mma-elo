@@ -210,7 +210,16 @@
   </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted } from 'vue'
+import { useStateStore } from '@/stores/state'
+
+const stateStore = useStateStore()
+
+onMounted(() => {
+  stateStore.setPageLoaded(true)
+})
+</script>
 
 <style scoped>
 .about-page {

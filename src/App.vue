@@ -1,12 +1,14 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { ref, computed } from 'vue'
+import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router'
+import { ref, computed, nextTick } from 'vue'
 import { useFightersStore } from '@/stores/fighters'
 import { useStateStore } from '@/stores/state'
 import TheSpinner from './components/UI/TheSpinner.vue'
 
 const fightersStore = useFightersStore()
 const stateStore = useStateStore()
+const router = useRouter()
+const route = useRoute()
 
 const formattedDate = computed(() => {
   if (fightersStore.date && fightersStore.date.length > 0) {
@@ -52,8 +54,16 @@ const closeMenuOutside = () => {
   }
 }
 
-function resetPageLoaded() {
+// Custom navigation handler with delay to let spinner appear
+const handleNavigation = async (event, path) => {
+  if (route.path === path) return // Don't navigate if already on this route
+  event.preventDefault()
   stateStore.setPageLoaded(false)
+  await nextTick()
+  // A short delay (e.g., 100ms) allows the spinner to render
+  setTimeout(() => {
+    router.push(path)
+  }, 100)
 }
 </script>
 
@@ -77,10 +87,30 @@ function resetPageLoaded() {
       @touchmove="handleTouchMove"
       @touchend="handleTouchEnd"
     >
-      <RouterLink to="/" class="nav-link"> Main List </RouterLink>
-      <RouterLink to="/ufc-rankings" class="nav-link"> UFC Leaderboards </RouterLink>
-      <RouterLink to="/analytics" class="nav-link-analytics"> Analytics </RouterLink>
-      <RouterLink to="/about" class="nav-link"> About </RouterLink>
+      <RouterLink to="/" class="nav-link" @click.prevent="(e) => handleNavigation(e, '/')">
+        Main List
+      </RouterLink>
+      <RouterLink
+        to="/ufc-rankings"
+        class="nav-link"
+        @click.prevent="(e) => handleNavigation(e, '/ufc-rankings')"
+      >
+        UFC Leaderboards
+      </RouterLink>
+      <RouterLink
+        to="/analytics"
+        class="nav-link-analytics"
+        @click.prevent="(e) => handleNavigation(e, '/analytics')"
+      >
+        Analytics
+      </RouterLink>
+      <RouterLink
+        to="/about"
+        class="nav-link"
+        @click.prevent="(e) => handleNavigation(e, '/about')"
+      >
+        About
+      </RouterLink>
     </nav>
   </header>
   <div :class="{ 'wrap-blur': isMenuOpen }" @click="closeMenuOutside">

@@ -33,10 +33,12 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeResolve((to, from, next) => {
   const stateStore = useStateStore()
   stateStore.setPageLoaded(false)
-  next()
+
+  // Add micro-delay for UI update
+  setTimeout(next, 50)
 })
 
 export default router
