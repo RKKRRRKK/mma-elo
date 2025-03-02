@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import WeightsView from '../views/WeightsView.vue'
 import AnalyticsView from '../views/AnalyticsView.vue'
+import { useStateStore } from '@/stores/state'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,12 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const stateStore = useStateStore()
+  stateStore.setPageLoaded(false)
+  next()
 })
 
 export default router

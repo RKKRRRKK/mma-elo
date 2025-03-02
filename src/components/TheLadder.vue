@@ -43,8 +43,9 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, watch, onMounted, nextTick } from 'vue'
 import { useFightersStore } from '@/stores/fighters'
+import { useStateStore } from '@/stores/state'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import InputText from 'primevue/inputtext'
@@ -52,6 +53,8 @@ import Dropdown from 'primevue/dropdown'
 import { FilterMatchMode } from '@primevue/core/api'
 
 const fightersStore = useFightersStore()
+const stateStore = useStateStore()
+
 const fighters = computed(() => fightersStore.fighters || [])
 const referenceDate = new Date('2024-12-26') //when the days peak was initially calculated
 
@@ -143,6 +146,17 @@ const updateSortIcon = () => {
     selectedSortIcon.setAttribute('fill', 'white')
   }
 }
+
+watch(
+  fighters,
+  async (newFighters) => {
+    if (newFighters && newFighters.length) {
+      await nextTick()
+      stateStore.setPageLoaded(true)
+    }
+  },
+  { immediate: true }
+)
 
 // Watch for changes in the sortField (which indicates a change in sorting)
 watch(sortField, (newSort) => {

@@ -2,8 +2,11 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { ref, computed } from 'vue'
 import { useFightersStore } from '@/stores/fighters'
+import { useStateStore } from '@/stores/state'
+import TheSpinner from './components/UI/TheSpinner.vue'
 
 const fightersStore = useFightersStore()
+const stateStore = useStateStore()
 
 const formattedDate = computed(() => {
   if (fightersStore.date && fightersStore.date.length > 0) {
@@ -48,6 +51,10 @@ const closeMenuOutside = () => {
     isMenuOpen.value = false
   }
 }
+
+function resetPageLoaded() {
+  stateStore.setPageLoaded(false)
+}
 </script>
 
 <template>
@@ -70,21 +77,30 @@ const closeMenuOutside = () => {
       @touchmove="handleTouchMove"
       @touchend="handleTouchEnd"
     >
-      <RouterLink to="/" class="nav-link">Main List</RouterLink>
-      <RouterLink to="/ufc-rankings" class="nav-link">UFC Leaderboards</RouterLink>
-      <RouterLink to="/analytics" class="nav-link-analytics">Analytics</RouterLink>
-      <RouterLink to="/about" class="nav-link">About</RouterLink>
+      <RouterLink to="/" class="nav-link"> Main List </RouterLink>
+      <RouterLink to="/ufc-rankings" class="nav-link"> UFC Leaderboards </RouterLink>
+      <RouterLink to="/analytics" class="nav-link-analytics"> Analytics </RouterLink>
+      <RouterLink to="/about" class="nav-link"> About </RouterLink>
     </nav>
   </header>
   <div :class="{ 'wrap-blur': isMenuOpen }" @click="closeMenuOutside">
+    <TheSpinner class="spinner" v-if="!stateStore.page_loaded" />
     <main class="main-content">
-      <RouterView />
+      <RouterView key="$route.fullPath" />
     </main>
     <footer class="footer"></footer>
   </div>
 </template>
 
 <style scoped>
+.spinner {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  z-index: 99999;
+  position: fixed;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

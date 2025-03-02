@@ -92,12 +92,14 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watch, nextTick } from 'vue'
 import { useUFCStore } from '@/stores/ufc_store'
+import { useStateStore } from '@/stores/state'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 
 const ufcStore = useUFCStore()
+const stateStore = useStateStore()
 
 const weightClasses = [
   'Flyweight',
@@ -134,6 +136,18 @@ const rowClassName = (rowData) => {
     return ''
   }
 }
+
+watch(
+  filteredFighters,
+  async (newFighters) => {
+    const hasData = Object.values(newFighters).some((fighters) => fighters.length > 0)
+    if (hasData) {
+      await nextTick()
+      stateStore.setPageLoaded(true)
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>
